@@ -73,3 +73,7 @@ class civ:
         else:    
             self.comm = Communication_Score
         pending = []
+
+# Earth has a development value of 0.7.
+Earth = civ()
+print(Earth.comm)
