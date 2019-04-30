@@ -50,6 +50,10 @@ class civ:
     #A score of 0.0 represents a civilization that never acts aggressively.
     #A score of 1.0 represents a civilization that always acts aggressively.
     agg = Aggression
+    
+    # Pending
+    #Contains all the pending actions happening to this user
+    pending = []
 
     def __init__(self, Devel = None, Arms_Deployment_Speed = None, Aggressiveness = None, Communication_Score = None):
         if Devel is None:
@@ -68,10 +72,4 @@ class civ:
             self.comm = Communication * self.dev
         else:    
             self.comm = Communication_Score
-
-
-
-
-# Earth has a development value of 0.7.
-Earth = civ()
-print(Earth.comm)
+        pending = []
