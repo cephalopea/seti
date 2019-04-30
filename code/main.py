@@ -15,7 +15,7 @@ civ2Arms = None
 civ2Agg = None
 civ2Comm = None
 
-civDistance = 1 #in lightyears
+civDistance = 1 #default val in lightyears
 
 def GetCustomCivSettings():
     #get user input for civ 1 and civ 2 traits and assign it to vars above, plus distance?
@@ -40,8 +40,7 @@ def GetCustomCivSettings():
     print("Distance Between Civilizations (in lightyears): ")
     civDistance = input()
     
-    return True
-    
+    return True  
 
 def Main(getUserInput):
     if (getUserInput): #if we want user input
@@ -50,8 +49,8 @@ def Main(getUserInput):
     civ2 = civilization.civ(civ2Dev, civ2Arms, civ2Agg, civ2Comm) #init civ 2 using values (default or user input)
     numberOfRounds = 0 #instantiate number of rounds
     if (civ1.arms < civ2.arms): #if civ 1 is slower than civ 2
-        numberOfRounds = Math.floor(civDistance/civ1.arms) #go for enough rounds for the slower civ to nuke the faster civ
+        numberOfRounds = 10*Math.floor(civDistance/civ1.arms) #10 times number rounds for the slower civ to nuke the faster civ
     else: #otherwise civ 2 is slower
-        numberOfRounds = Math.floor(civDistance/civ2.arms) #same as above
+        numberOfRounds = 10*Math.floor(civDistance/civ2.arms) #same as above
     
     
