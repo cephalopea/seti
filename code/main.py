@@ -1,7 +1,9 @@
 import numpy as np
 import random as rd
 import civilization
-import 
+import evolution
+import decision
+import interaction
 
 civ1Dev = None
 civ1Arms = None
@@ -51,4 +53,5 @@ def Main(getUserInput):
         numberOfRounds = Math.floor(civDistance/civ1.arms) #go for enough rounds for the slower civ to nuke the faster civ
     else: #otherwise civ 2 is slower
         numberOfRounds = Math.floor(civDistance/civ2.arms) #same as above
+    
     
