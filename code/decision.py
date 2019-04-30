@@ -18,7 +18,7 @@ def EstimateMatrix(civ1, civ2):
     aA = [(civ1.dev - civ2.dev), (civ2.dev - civ1.dev)] #civ 1 attacks, civ 2 attacks
     aC = [0, (civ2.dev - civ1.dev)] #civ 1 attacks, civ 2 communicates
     cA = [(civ1.dev - civ2.dev), 0] #civ 1 communicates, civ 2 attacks
-    cC [(civ1.dev + (civ1.dev + civ2.dev)/5), (civ2.dev + (civ1.dev + civ2.dev)/5)] #civ 1 communicates, civ 2 communicates
+    cC = [(civ1.dev + (civ1.dev + civ2.dev)/5), (civ2.dev + (civ1.dev + civ2.dev)/5)] #civ 1 communicates, civ 2 communicates
     return [aA, aC, cA, cC] #return array representing predicted payoffs
 
 def ChooseActions(civ1, civ2):
@@ -29,13 +29,13 @@ def ChooseActions(civ1, civ2):
     civ2Action = None
     if (civ1Payoff[0] > civ1Payoff[1]):
         civ1Action = "attack"
-    else if (civ1Payoff[0] == civ1Payoff[1]):
+    elif (civ1Payoff[0] == civ1Payoff[1]):
         civ1Action = strategies[rd.randint(0,1)]
     else:
         civ1Action = "communicate"
     if (civ2Payoff[0] > civ2Payoff[1]):
         civ2Action = "attack"
-    else if (civ2Payoff[0] == civ2Payoff[1]):
+    elif (civ2Payoff[0] == civ2Payoff[1]):
         civ2Action = strategies[rd.randint(0,1)]
     else:
         civ2Action = "communicate"
