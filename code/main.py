@@ -6,18 +6,6 @@ import evolution
 import decision
 import interaction
 
-civ1Dev = None
-civ1Arms = None
-civ1Agg = None
-civ1Comm = None
-
-civ2Dev = None
-civ2Arms = None
-civ2Agg = None
-civ2Comm = None
-
-civDistance = 1 #default val in lightyears
-
 def GetCustomCivSettings():
     #get user input for civ 1 and civ 2 traits and assign it to vars above, plus distance?
     print("Civ 1 Development: ")
@@ -41,15 +29,38 @@ def GetCustomCivSettings():
     print("Distance Between Civilizations (in lightyears): ")
     civDistance = input()
     
-    return True  
+    return {"civ1": {"dev": civ1Dev, "arms": civ1Arms, "agg": civ1Agg, "comm": civ1Comm}, "civ2": {"dev": civ2Dev, "arms": civ2Arms, "agg": civ2Agg, "comm": civ2Comm}, "dist": civDistance}
 
-
+def GetRandomCivSettings():
+    civ1Dev = round(rd.uniform(0,2), 2) #random number between 0 and 2 with 2 decimal places
+    civ1Arms = round(1 - math.sqrt(1 - rd.uniform(0,1)), 5) #random number between 0 and 1, weighted towards 0
+    civ1Agg = round(rd.uniform(0,1), 2) #random number between 0 and 1 with 2 decimal places
+    civ1Comm = round(rd.uniform(0,2), 2) #random number between 0 and 2 with 2 decimal places
+    
+    civ2Dev = round(rd.uniform(0,2), 2) #random number between 0 and 2 with 2 decimal places
+    civ2Arms = round(1 - math.sqrt(1 - rd.uniform(0,1)), 5) #random number between 0 and 1, weighted towards 0
+    civ2Agg = round(rd.uniform(0,1), 2) #random number between 0 and 1 with 2 decimal places
+    civ2Comm = round(rd.uniform(0,2), 2) #random number between 0 and 2 with 2 decimal places
+    
+    civDistance = math.ceil(rd.randint(1,10))
+    
+    return {"civ1": {"dev": civ1Dev, "arms": civ1Arms, "agg": civ1Agg, "comm": civ1Comm}, "civ2": {"dev": civ2Dev, "arms": civ2Arms, "agg": civ2Agg, "comm": civ2Comm}, "dist": civDistance}
 
 def Main(getUserInput):
+    civInputs = None
     if (getUserInput): #if we want user input
-        GetCustomCivSettings() #get user input
-    civ1 = civilization.civ(civ1Dev, civ1Arms, civ1Agg, civ1Comm) #init civ 1 using values (default or user input)
-    civ2 = civilization.civ(civ2Dev, civ2Arms, civ2Agg, civ2Comm) #init civ 2 using values (default or user input)
+        civInputs = GetCustomCivSettings() #get user input
+    else:
+        civInputs = GetRandomCivSettings()
+    civ1 = civilization.civ(civInputs["civ1"]["dev"], civInputs["civ1"]["arms"], civInputs["civ1"]["agg"], civInputs["civ1"]["comm"]) #init civ 1 using values (default or user input)
+    civ2 = civilization.civ(civInputs["civ2"]["dev"], civInputs["civ2"]["arms"], civInputs["civ2"]["agg"], civInputs["civ2"]["comm"]) #init civ 2 using values (default or user input)
+    
+    civDistance = civInputs["dist"]
+    
+    print("Civ 1 | Development:", civ1.dev, "| Arms Speed:", civ1.arms, "| Aggressiveness:", civ1.agg, "| Communication:", civ1.comm)
+    print("Civ 2 | Development:", civ2.dev, "| Arms Speed:", civ2.arms, "| Aggressiveness:", civ2.agg, "| Communication:", civ2.comm)
+    print("Civ Distance:", civDistance)
+    
     currentRound = 0
     consecutiveComm = 0
     attackRounds = 0 #instantiate number of rounds
@@ -90,6 +101,7 @@ def Main(getUserInput):
         currentRound += 1 #increment current round for timeout
             
     #the game has concluded, figure out why
+    print("Rounds Elapsed:", currentRound)
     if (civ1.dev <= 0) and (civ2.dev > 0): #civ1 is dead and civ2 is alive
         print("Civ 2 Wins")
     elif (civ2.dev <=0) and (civ1.dev > 0): #civ2 is dead and civ1 is alive
@@ -105,4 +117,4 @@ def Main(getUserInput):
     return True
             
         
-Main(True)
+Main(False)

@@ -5,4 +5,4 @@ import civilization
 # time_step
 #Updates the world state by one round of communication
 def EvolveCiv(civ):
-    
+    return True

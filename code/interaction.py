@@ -1,9 +1,10 @@
 # This module covers all interactions between civilizations,
 # including war, and communication
+import math
 import evolution
 
 def Attack(attacker, civDistance): #construct an attack
-    attackTime = Math.floor(civDistance/attacker.arms) #in how many rounds will this attack land?
+    attackTime = math.floor(civDistance/attacker.arms) #in how many rounds will this attack land?
     attackDamage = (0 - attacker.dev) #how much damage will this attack deal? this should be negative
     return {"time": attackTime, "impact": attackDamage} #return dict containing those two values
     

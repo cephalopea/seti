@@ -58,7 +58,7 @@ class civ:
     def __init__(self, Devel = None, Arms_Deployment_Speed = None, Aggressiveness = None, Communication_Score = None):
         if Devel is None:
             self.dev = Development
-        else:       
+        else:   
             self.dev = Devel
         if Arms_Deployment_Speed is None:
             self.arms = Speed
@@ -75,5 +75,5 @@ class civ:
         pending = []
 
 # Earth has a development value of 0.7.
-Earth = civ()
-print(Earth.comm)
+#Earth = civ()
+#print(Earth.dev)
