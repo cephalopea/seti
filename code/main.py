@@ -12,10 +12,34 @@ civ2Arms = None
 civ2Agg = None
 civ2Comm = None
 
-civDistance = 1 #in lightyears??? dunno yet, we'll get there
+civDistance = 1 #in lightyears
 
 def GetCustomCivSettings():
     #get user input for civ 1 and civ 2 traits and assign it to vars above, plus distance?
+    print("Civ 1 Development: ")
+    civ1Dev = input()
+    print("Civ 1 Arms: ")
+    civ1Arms = input()
+    print("Civ 1 Aggression: ")
+    civ1Agg = input()
+    print("Civ 1 Communication: ")
+    civ1Comm = input()
+    
+    print("Civ 2 Development: ")
+    civ2Dev = input()
+    print("Civ 2 Arms: ")
+    civ2Arms = input()
+    print("Civ 2 Aggression: ")
+    civ2Agg = input()
+    print("Civ 2 Communication: ")
+    civ2Comm = input()
+    
+    print("Distance Between Civilizations (in lightyears): ")
+    civDistance = input()
+    
+    return True
+    
+    
     
 def Communicate():
     #one round between the civs
