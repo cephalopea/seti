@@ -1,6 +1,6 @@
 import numpy as np
 import random as rd
-import SpaceNukes
+import civilization
 
 civ1Dev = None
 civ1Arms = None
@@ -23,6 +23,6 @@ def Communicate():
 def Main(getUserInput):
     if (getUserInput):
         GetCustomCivSettings()
-    civ1 = SpaceNukes.civ(civ1Dev, civ1Arms, civ1Agg, civ1Comm)
-    civ2 = SpaceNukes.civ(civ2Dev, civ2Arms, civ2Agg, civ2Comm)
+    civ1 = civilization.civ(civ1Dev, civ1Arms, civ1Agg, civ1Comm)
+    civ2 = civilization.civ(civ2Dev, civ2Arms, civ2Agg, civ2Comm)
     #do we need something for distance? how do we know how many times civs can communicate?
