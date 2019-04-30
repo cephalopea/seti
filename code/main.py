@@ -1,6 +1,7 @@
 import numpy as np
 import random as rd
 import civilization
+import 
 
 civ1Dev = None
 civ1Arms = None
@@ -39,13 +40,15 @@ def GetCustomCivSettings():
     
     return True
     
-def Communicate():
-    #one round between the civs
 
 def Main(getUserInput):
-    if (getUserInput):
-        GetCustomCivSettings()
-    civ1 = civilization.civ(civ1Dev, civ1Arms, civ1Agg, civ1Comm)
-    civ2 = civilization.civ(civ2Dev, civ2Arms, civ2Agg, civ2Comm)
-    #do we need something for distance? how do we know how many times civs can communicate?
-    if (civ1)
+    if (getUserInput): #if we want user input
+        GetCustomCivSettings() #get user input
+    civ1 = civilization.civ(civ1Dev, civ1Arms, civ1Agg, civ1Comm) #init civ 1 using values (default or user input)
+    civ2 = civilization.civ(civ2Dev, civ2Arms, civ2Agg, civ2Comm) #init civ 2 using values (default or user input)
+    numberOfRounds = 0 #instantiate number of rounds
+    if (civ1.arms < civ2.arms): #if civ 1 is slower than civ 2
+        numberOfRounds = Math.floor(civDistance/civ1.arms) #go for enough rounds for the slower civ to nuke the faster civ
+    else: #otherwise civ 2 is slower
+        numberOfRounds = Math.floor(civDistance/civ2.arms) #same as above
+    
