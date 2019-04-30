@@ -1,5 +1,6 @@
 # This module covers the decision-making functions and payoff matrices
 # of civilizations when they are interacting.
+import random as rd
 import civilization
 
 strategies = ["attack", "communicate"]
@@ -28,10 +29,14 @@ def ChooseActions(civ1, civ2):
     civ2Action = None
     if (civ1Payoff[0] > civ1Payoff[1]):
         civ1Action = "attack"
+    else if (civ1Payoff[0] == civ1Payoff[1]):
+        civ1Action = strategies[rd.randint(0,1)]
     else:
         civ1Action = "communicate"
     if (civ2Payoff[0] > civ2Payoff[1]):
         civ2Action = "attack"
+    else if (civ2Payoff[0] == civ2Payoff[1]):
+        civ2Action = strategies[rd.randint(0,1)]
     else:
         civ2Action = "communicate"
     return [civ1Action, civ2Action]
