@@ -244,26 +244,26 @@ def runTrials(param):
 
 
 def getData():
-##    t_dist=threading.Thread(target=runTrials, args=("dist",))
-##    t_dev=threading.Thread(target=runTrials, args=("dev",))
-##    t_arms=threading.Thread(target=runTrials, args=("arms",))
-##    t_agg=threading.Thread(target=runTrials, args=("agg",))
-##    t_comm=threading.Thread(target=runTrials, args=("comm",))
-##
-##    t_dist.start()
-##    t_dev.start()
-##    t_arms.start()
-##    t_agg.start()
-##    t_comm.start()
-##
-##    t_dist.join()
-##    t_dev.join()
-##    t_arms.join()
-##    t_agg.join()
-##    t_comm.join()
+    t_dist=threading.Thread(target=runTrials, args=("dist",))
+    t_dev=threading.Thread(target=runTrials, args=("dev",))
+    t_arms=threading.Thread(target=runTrials, args=("arms",))
+    t_agg=threading.Thread(target=runTrials, args=("agg",))
+    t_comm=threading.Thread(target=runTrials, args=("comm",))
 
-    runTrials("randomize")
+    t_dist.start()
+    t_dev.start()
+    t_arms.start()
+    t_agg.start()
+    t_comm.start()
+
+    t_dist.join()
+    t_dev.join()
+    t_arms.join()
+    t_agg.join()
+    t_comm.join()
+
+ #   runTrials("randomize")
  
             
         
-getData()
+Main(False)
