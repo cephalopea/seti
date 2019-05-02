@@ -1,5 +1,6 @@
 import numpy as np
 import random as rd
+import pandas as pd
 import math
 import civilization
 import evolution
@@ -103,9 +104,9 @@ def Main(getUserInput):
     #the game has concluded, figure out why
     print("Rounds Elapsed:", currentRound)
     if (civ1.dev <= 0) and (civ2.dev > 0): #civ1 is dead and civ2 is alive
-        print("Civ 2 Wins")
+        print("Civ 2 Annihilates Civ  1")
     elif (civ2.dev <=0) and (civ1.dev > 0): #civ2 is dead and civ1 is alive
-        print("Civ 1 Wins")
+        print("Civ 1 Annihilates Civ 2")
     elif (civ2.dev <=0) and (civ1.dev <= 0): #everyone's dead
         print("Everyone Has Died")
     elif (currentRound >= 10*attackRounds): #we've timed out
@@ -115,6 +116,87 @@ def Main(getUserInput):
     else:
         print("Error Encountered")
     return True
+
+
+def getData():
+    data=[["civ1 dev"],["civ1 arms"],["civ1 agg"],["civ1 com"],["civ2 dev"],["civ2 arms"],["civ2 agg"],["civ2 com"],["dist"],["rounds"],["outcome"]]
+    for i in range(100):
+        if(i%10==0):
+            print(i)
+        civInputs = GetRandomCivSettings()
+        civ1 = civilization.civ(civInputs["civ1"]["dev"], civInputs["civ1"]["arms"], civInputs["civ1"]["agg"], civInputs["civ1"]["comm"]) #init civ 1 using values (default or user input)
+        civ2 = civilization.civ(civInputs["civ2"]["dev"], civInputs["civ2"]["arms"], civInputs["civ2"]["agg"], civInputs["civ2"]["comm"]) #init civ 2 using values (default or user input)
+        
+        civDistance = i//10
+
+        data[0].append(civ1.dev)
+        data[1].append(civ1.arms)
+        data[2].append(civ1.agg)
+        data[3].append(civ1.comm)
+
+        data[4].append(civ2.dev)
+        data[5].append(civ2.arms)
+        data[6].append(civ2.agg)
+        data[7].append(civ2.comm)
+
+        data[8].append(civDistance)
+        
+        currentRound = 0
+        consecutiveComm = 0
+        attackRounds = 0 #instantiate number of rounds
+        if (civ1.arms < civ2.arms): #if civ 1 is slower than civ 2
+            attackRounds = math.ceil(civDistance/civ1.arms) #rounds for the slower civ to nuke the faster civ
+        else: #otherwise civ 2 is slower
+            attackRounds = math.ceil(civDistance/civ2.arms) #same as above
+        #this while condition is really long:
+        #checks that neither civ is dead, we haven't timed out, and we haven't established trust
+        while (civ1.dev > 0) and (civ2.dev > 0) and (currentRound < 10*attackRounds) and (consecutiveComm < attackRounds):
+            #check to see if any pending actions are realized this turn
+            civ1Actionable = filter(interaction.CheckPending, civ1.pending) #find the items that are happening this turn
+            for action in civ1Actionable: #for each of those items
+                civ1.dev += action["impact"] #add their impact (pos or neg) to development
+            civ2Actionable = filter(interaction.CheckPending, civ2.pending) #do same steps for civ 2
+            for action in civ2Actionable:
+                civ2.dev += action["impact"]
+                
+            #once development scores are altered, decide what to do next
+            est = decision.ChooseActions(civ1, civ2) #get the decisions of each civ
+            
+            #keep track of consecutive communication count
+            if ((est[0] == "communicate") and (est[1] == "communicate")): #if both communicated
+                consecutiveComm += 1 #increase their comm count
+            else: #if one attacked
+                consecutiveComm = 0 #zero out comm count
+                
+            #handle actions for this turn
+            if (est[0] == "attack"): #civ 1 attacked
+                civ2.pending.append(interaction.Attack(civ1, civDistance)) #add an attack to civ 2's pending
+            else: #civ 1 communicated
+                civ2.pending.append(interaction.Communicate(civ1, civDistance)) #add a communication to civ 2's pending
+            if(est[1] == "attack"): #civ 2 attacked
+                civ1.pending.append(interaction.Attack(civ2, civDistance)) #add an attack to civ 1's pending
+            else:
+                civ1.pending.append(interaction.Communicate(civ2, civDistance)) #add a communication to civ 1's pending
+                
+            currentRound += 1 #increment current round for timeout
+                
+        #the game has concluded, figure out why
+        data[9].append(currentRound)
+        if (civ1.dev <= 0) and (civ2.dev > 0): #civ1 is dead and civ2 is alive
+            data[10].append("Civ 2 Annihilates Civ 1")
+        elif (civ2.dev <=0) and (civ1.dev > 0): #civ2 is dead and civ1 is alive
+            data[10].append("Civ 1 Annihilates Civ 2")
+        elif (civ2.dev <=0) and (civ1.dev <= 0): #everyone's dead
+            data[10].append("Everyone Has Died")
+        elif (currentRound >= 10*attackRounds): #we've timed out
+            data[10].append("Stalemate")
+        elif (consecutiveComm >= attackRounds): #we've established trust
+            data[10].append("Trust Established")
+        else:
+            data[10].append("Error Encountered")
+
+    np_array=np.asarray(data)
+    pd.DataFrame(np_array).to_csv("./data.csv")
             
         
-Main(False)
+getData()
